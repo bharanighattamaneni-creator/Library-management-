@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Library Login</title><link rel="stylesheet" href="/style.css"></head>
+<body class="login">
+<div class="card login-card">
+<h1>📚 Library</h1><p>Management System</p>
+<form method="post" action="/login">
+<input name="username" placeholder="Username" value="admin" required>
+<input name="password" type="password" placeholder="Password" value="admin123" required>
+<button>Login</button>
+</form>
+<p class="error" th:if="${error}" th:text="${error}"></p>
+</div>
+</body></html>

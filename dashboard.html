@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Library Dashboard</title><link rel="stylesheet" href="/style.css"></head>
+<body>
+<header><h1>📚 Library Management System</h1><a href="/">Logout</a></header>
+<main>
+<section class="stats">
+<div><b th:text="${#lists.size(books)}">0</b><span>Books</span></div>
+<div><b th:text="${#lists.size(members)}">0</b><span>Members</span></div>
+<div><b th:text="${#lists.size(issues)}">0</b><span>Issue Records</span></div>
+</section>
+
+<section class="grid">
+<div class="card"><h2>Add Book</h2>
+<form method="post" action="/books/add">
+<input name="title" placeholder="Title" required><input name="author" placeholder="Author" required>
+<input name="category" placeholder="Category"><input name="quantity" type="number" min="1" placeholder="Quantity" required>
+<button>Add Book</button></form></div>
+
+<div class="card"><h2>Add Member</h2>
+<form method="post" action="/members/add">
+<input name="name" placeholder="Name" required><input name="email" placeholder="Email">
+<input name="phone" placeholder="Phone"><button>Add Member</button></form></div>
+
+<div class="card"><h2>Issue Book</h2>
+<form method="post" action="/issue">
+<input name="bookId" type="number" placeholder="Book ID" required>
+<input name="memberId" type="number" placeholder="Member ID" required>
+<label>Due date</label><input name="dueDate" type="date" required>
+<button>Issue Book</button></form></div>
+</section>
+
+<section class="card"><h2>Books</h2>
+<table><tr><th>ID</th><th>Title</th><th>Author</th><th>Category</th><th>Total</th><th>Available</th><th></th></tr>
+<tr th:each="b:${books}"><td th:text="${b.id}"></td><td th:text="${b.title}"></td><td th:text="${b.author}"></td><td th:text="${b.category}"></td><td th:text="${b.quantity}"></td><td th:text="${b.available_quantity}"></td>
+<td><form th:action="@{/books/delete/{id}(id=${b.id})}" method="post"><button class="danger">Delete</button></form></td></tr></table></section>
+
+<section class="card"><h2>Members</h2>
+<table><tr><th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th></th></tr>
+<tr th:each="m:${members}"><td th:text="${m.id}"></td><td th:text="${m.name}"></td><td th:text="${m.email}"></td><td th:text="${m.phone}"></td>
+<td><form th:action="@{/members/delete/{id}(id=${m.id})}" method="post"><button class="danger">Delete</button></form></td></tr></table></section>
+
+<section class="card"><h2>Issue / Return</h2>
+<table><tr><th>ID</th><th>Book</th><th>Member</th><th>Issued</th><th>Due</th><th>Returned</th><th>Fine</th><th></th></tr>
+<tr th:each="i:${issues}"><td th:text="${i.id}"></td><td th:text="${i.title}"></td><td th:text="${i.name}"></td><td th:text="${i.issue_date}"></td><td th:text="${i.due_date}"></td><td th:text="${i.return_date}"></td><td th:text="${i.fine}"></td>
+<td th:if="${i.return_date == null}"><form th:action="@{/return/{id}(id=${i.id})}" method="post"><button>Return</button></form></td><td th:unless="${i.return_date == null}">Returned</td></tr></table></section>
+</main>
+</body></html>
